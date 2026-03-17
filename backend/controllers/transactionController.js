@@ -15,7 +15,12 @@ exports.addTransaction = async(req, res) => {
 
         res.status(201).json(transaction);
     } catch (err){
-        res.status(500).json({message: "Server Error"});
+            console.log(err);
+            res.status(500).json({ 
+            message: "Server Error", 
+            error: err.message,
+            stack: err.stack 
+        });
     }
 };
 
