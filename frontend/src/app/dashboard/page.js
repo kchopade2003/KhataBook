@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import API from "@/lib/api";
 import Sidebar from "@/components/Sidebar";
+import ProtectedLayout from "@/components/ProtectedLayout";
 
 export default function Dashboard() {
   const [data, setData] = useState({});
@@ -12,24 +13,33 @@ export default function Dashboard() {
       const res = await API.get("/dashboard");
       setData(res.data);
     };
-    fetchData();
+
+    const token = localStorage.getItem("token");
+
+    if(token){
+      fetchData();
+    }else{
+      console.log("Token empty");
+    }
   }, []);
 
   return (
-    <div className="flex">
-      <Sidebar />
+    <ProtectedLayout>
+      <div className="flex">
+        <Sidebar />
 
-      <div className="flex-1 p-8 bg-gray-100 min-h-screen">
-        <h2 className="text-3xl font-bold mb-6">Dashboard</h2>
+        <div className="flex-1 p-8 bg-gray-100 min-h-screen">
+          <h2 className="text-3xl font-bold mb-6">Dashboard</h2>
 
-        <div className="grid grid-cols-4 gap-6">
-          <Card title="Total Sales" value={data.totalSales} color="text-green-600" />
-          <Card title="Total Expenses" value={data.totalExpenses} color="text-red-600" />
-          <Card title="Net Profit" value={data.netProfit} color="text-indigo-600" />
-          <Card title="Pending Lending" value={data.totalPending} color="text-yellow-600" />
+          <div className="grid grid-cols-4 gap-6">
+            <Card title="Total Sales" value={data.totalSales} color="text-green-600" />
+            <Card title="Total Expenses" value={data.totalExpenses} color="text-red-600" />
+            <Card title="Net Profit" value={data.netProfit} color="text-indigo-600" />
+            <Card title="Pending Lending" value={data.totalPending} color="text-yellow-600" />
+          </div>
         </div>
       </div>
-    </div>
+    </ProtectedLayout>
   );
 }
 

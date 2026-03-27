@@ -1,5 +1,6 @@
 "use client"
 
+import ProtectedLayout from "@/components/ProtectedLayout";
 import Sidebar from "@/components/Sidebar";
 import API from "@/lib/api";
 import { useEffect, useState } from "react"
@@ -17,7 +18,13 @@ export default function Transactions() {
     }
 
     useEffect(() => {
-        fetchTransactions();
+        const token = localStorage.getItem("token");
+
+        if(token){
+            fetchTransactions();
+        }else{
+            console.log("Token empty.")
+        }
     }, []);
 
     const handleAdd = async (e) => {
@@ -47,6 +54,7 @@ export default function Transactions() {
     };
 
     return (
+    <ProtectedLayout>
     <div className="flex">
         <Sidebar />
 
@@ -148,6 +156,7 @@ export default function Transactions() {
 
         </div>
     </div>
+    </ProtectedLayout>
   );
 
 }

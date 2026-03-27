@@ -47,6 +47,15 @@ export default function Login() {
         <button className="w-full bg-indigo-600 text-white p-3 rounded-lg hover:bg-indigo-700 transition">
           Login
         </button>
+        <p className="text-center mt-4 text-sm">
+          Don't have an account?{" "}
+          <span
+            onClick={() => router.push("/register")}
+            className="text-blue-600 cursor-pointer"
+          >
+            Register
+          </span>
+        </p>
       </form>
     </div>
   );
